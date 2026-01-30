@@ -78,26 +78,26 @@ public class BoolController {
 
         System.out.println("This is controller");
     }
-    //path base version
-    @GetMapping(value="/ping/{version}",version = "1")
+    //header base version
+    @GetMapping(value="/ping",version = "1")
     public String ping(){
         return "Api is working.....";
     }
 
-    @GetMapping(value = "/getlist/{version}",version = "1")
+    @GetMapping(value = "/getlist",version = "1")
     public List<Book> getBookList(){
 
        // System.out.println(bookList.get(1).getBookId().toString());
         return bookList;
     }
 
-    @GetMapping(value = "/getlist/{version}",version = "2")
+    @GetMapping(value = "/getlist",version = "2")
     public List<Book> getBookAllList(){
 
         // System.out.println(bookList.get(1).getBookId().toString());
         return bookList;
     }
-    @PostMapping(value = "/addNewBook/{version}",version = "1")
+    @PostMapping(value = "/addNewBook",version = "1")
     public String addList(@RequestBody Book obj){
        bookList.add(new Book(obj.getBookId(), obj.getTitle(),
                obj.getPrice(), obj.getIsbn(), obj.getAuther(), obj.getPublisher(),
@@ -108,14 +108,14 @@ public class BoolController {
        return "Add new book...";
     }
 
-    @GetMapping(value = "/book/{version}",version = "1")
+    @GetMapping(value = "/book",version = "1")
     public Book getById(@RequestParam String id){
       Book obj= bookList.stream().filter(bookId->bookId.getBookId().equals(id)).findFirst()
               .orElseThrow(()-> new RuntimeException("Book not found"));
 
        return obj;
     }
-    @PutMapping(value = "/{id}/{version}",version = "1")
+    @PutMapping(value = "/{id}",version = "1")
     public Book updateById(@PathVariable String id, @ModelAttribute Book obj){
         Book bookObj= bookList.stream().filter(bookId->bookId.getBookId().equals(id)).findFirst()
                 .orElseThrow(()-> new RuntimeException("Book not found"));
@@ -133,7 +133,7 @@ public class BoolController {
 
        return bookObj;
     }
-    @DeleteMapping(value = "/{id}/{version}", version = "1")
+    @DeleteMapping(value = "/{id}", version = "1")
     public boolean removeById(@PathVariable String id){
       Book book= bookList.stream().filter(bookobj->bookobj.getBookId().equals(id)).findFirst().orElseThrow(()-> new RuntimeException("not found"));
       boolean statu=  bookList.remove(book);
@@ -142,7 +142,7 @@ public class BoolController {
 
     }
 
-    @DeleteMapping(value = "/{version}",version = "1")
+    @DeleteMapping(version = "1")
     public String removeAll(){
 
         bookList.clear();
