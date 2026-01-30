@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.BookDto;
 import com.example.demo.entity.Book;
+import com.example.demo.repo.BookServiceRepo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,8 +15,9 @@ public class BoolController {
 
    private List<Book> bookList=new ArrayList<>();
 
-
-   public BoolController(){
+private BookServiceRepo bookServiceRepo;
+   public BoolController(BookServiceRepo bookServiceRepo){
+       this.bookServiceRepo=bookServiceRepo;
 
        bookList.add(new Book("B001","Java Programming",450.0,"ISBN001","James Gosling",
                "Oracle","3rd","2020","Programming","English",550L,"Available"));
@@ -85,10 +88,10 @@ public class BoolController {
     }
 
     @GetMapping(value = "/getlist",params = "version=1")
-    public List<Book> getBookList(){
+    public List<BookDto> getBookList(){
 
        // System.out.println(bookList.get(1).getBookId().toString());
-        return bookList;
+        return bookServiceRepo.getlistOfBook();
     }
 
     @GetMapping(value = "/getlist",params = "version=2")
@@ -97,13 +100,21 @@ public class BoolController {
         // System.out.println(bookList.get(1).getBookId().toString());
         return bookList;
     }
+
+    @PostMapping(value = "/addList",params = "version=1")
+    public String addListOfBook(@RequestBody List<BookDto> listOfBook ){
+        bookServiceRepo.addListOfBook(listOfBook);
+       return "List has added";
+    }
+
     @PostMapping(value = "/addNewBook",params = "version=1")
-    public String addList(@RequestBody Book obj){
-       bookList.add(new Book(obj.getBookId(), obj.getTitle(),
+    public String addList(@RequestBody BookDto obj){
+/*       bookList.add(new Book(obj.getBookId(), obj.getTitle(),
                obj.getPrice(), obj.getIsbn(), obj.getAuther(), obj.getPublisher(),
                obj.getEdition(), obj.getYearOfPublished(), obj.getGenre(), obj.getLanguage(),
                obj.getPages(), obj.getStatus()
-               ));
+               ));*/
+        bookServiceRepo.addNewBook(obj);
 
        return "Add new book...";
     }

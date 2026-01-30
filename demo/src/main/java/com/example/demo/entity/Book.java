@@ -1,13 +1,22 @@
 package com.example.demo.entity;
 
 import lombok.AllArgsConstructor;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String bookId;
     private String title;
     private Double price;
@@ -16,6 +25,12 @@ public class Book {
     private String publisher;
     private String edition;
     private String yearOfPublished;
+
+
+    private String genre;
+    private String language;
+    private Long pages;
+    private String status;
 
     public String getBookId() {
         return bookId;
@@ -125,12 +140,8 @@ public class Book {
         return this;
     }
 
-    private String genre;
-    private String language;
-    private Long pages;
-    private String status;
 
-
+    public Book(){}
     public Book(String bookId, String title, Double price, String isbn,
                 String auther, String publisher, String edition,
                 String yearOfPublished, String genre, String language,
